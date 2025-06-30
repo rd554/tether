@@ -5,22 +5,16 @@
 [functions]
   directory = "netlify/functions"
 
-[[plugins]]
-  package = "@netlify/next"
-
-# API routes for backend functionality
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
 
-# Handle Next.js routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
