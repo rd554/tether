@@ -5,6 +5,9 @@
 [functions]
   directory = "netlify/functions"
 
+[[plugins]]
+  package = "@netlify/next"
+
 # API routes for backend functionality
 [[redirects]]
   from = "/api/*"
