@@ -1,5 +1,4 @@
 const express = require('express');
-const serverless = require('serverless-http');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -7,17 +6,19 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 // Import routes
-const teamRoutes = require('./backend/routes/teams');
-const userRoutes = require('./backend/routes/users');
-const linkRoutes = require('./backend/routes/links');
-const dashboardRoutes = require('./backend/routes/dashboard');
-const authRoutes = require('./backend/routes/auth');
+const teamRoutes = require('./routes/teams');
+const userRoutes = require('./routes/users');
+const linkRoutes = require('./routes/links');
+const dashboardRoutes = require('./routes/dashboard');
+const authRoutes = require('./routes/auth');
 
 // Import middleware
-const loggerMiddleware = require('./backend/middleware/logger');
-const { verifyGoogleToken } = require('./backend/middleware/auth');
+const loggerMiddleware = require('./middleware/logger');
+const googleAuthMiddleware = require('./middleware/googleAuth');
+const { verifyGoogleToken } = require('./middleware/auth');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 // Security middleware
 app.use(helmet());
@@ -50,11 +51,11 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
-app.use('/teams', verifyGoogleToken, teamRoutes);
-app.use('/users', verifyGoogleToken, userRoutes);
-app.use('/links', verifyGoogleToken, linkRoutes);
-app.use('/dashboard', verifyGoogleToken, dashboardRoutes);
-app.use('/auth', authRoutes);
+app.use('/api/teams', verifyGoogleToken, teamRoutes);
+app.use('/api/users', verifyGoogleToken, userRoutes);
+app.use('/api/links', verifyGoogleToken, linkRoutes);
+app.use('/api/dashboard', verifyGoogleToken, dashboardRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -70,16 +71,18 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Database connection (only connect if not already connected)
-if (mongoose.connection.readyState === 0) {
-  mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {
-      console.log('✅ Connected to MongoDB');
-    })
-    .catch((error) => {
-      console.error('❌ MongoDB connection error:', error);
+// Database connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+    app.listen(PORT, () => {
+      console.log(`🚀 Tether API server running on port ${PORT}`);
+      console.log(`📊 Health check: http://localhost:${PORT}/health`);
     });
-}
+  })
+  .catch((error) => {
+    console.error('❌ MongoDB connection error:', error);
+    process.exit(1);
+  });
 
-// Export the serverless handler
-module.exports.handler = serverless(app); 
+module.exports = app; 
