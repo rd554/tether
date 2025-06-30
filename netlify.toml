@@ -3,8 +3,8 @@
   command = "npm run build"
   publish = ".next"
 
-[build.environment]
-  NODE_VERSION = "18"
+[functions]
+  directory = "netlify/functions"
 
 # API routes for backend functionality
 [[redirects]]
