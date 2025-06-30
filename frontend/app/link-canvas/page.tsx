@@ -35,9 +35,6 @@ export default function LinkCanvasPage() {
         <LinkCanvasModal
           isOpen={true}
           onClose={() => {}}
-          links={DUMMY_CANVAS_DATA ? dummyLinks : []}
-          teams={DUMMY_CANVAS_DATA ? dummyTeams : []}
-          users={DUMMY_CANVAS_DATA ? dummyUsers : []}
         />
       </div>
     </div>

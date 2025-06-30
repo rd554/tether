@@ -16,6 +16,8 @@ export default function LinkDetailsPage() {
 
   useEffect(() => {
     const fetchLink = async () => {
+      if (!params?.id || Array.isArray(params.id)) return;
+      
       try {
         setLoading(true);
         const linkData = await apiClient.getLink(params.id as string);
@@ -28,10 +30,8 @@ export default function LinkDetailsPage() {
       }
     };
 
-    if (params.id) {
-      fetchLink();
-    }
-  }, [params.id]);
+    fetchLink();
+  }, [params?.id]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
