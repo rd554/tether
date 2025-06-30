@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['images.clerk.dev', 'img.clerk.com'],
+    domains: ['lh3.googleusercontent.com', 'graph.facebook.com'],
   },
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '/api',
   },
   async rewrites() {
     return [
       {
-        source: '/api/:path((?!auth).*)',
-        destination: 'http://localhost:5000/api/:path*',
+        source: '/api/:path*',
+        destination: '/.netlify/functions/api/:path*',
       },
     ];
   },
