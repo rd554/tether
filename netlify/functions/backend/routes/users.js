@@ -6,9 +6,9 @@ const Joi = require('joi');
 
 // Validation schemas
 const updateProfileSchema = Joi.object({
-  firstName: Joi.string().min(2).max(50),
-  lastName: Joi.string().min(2).max(50),
-  role: Joi.string().valid('PM', 'DEV', 'DESIGN', 'LEGAL', 'SECURITY', 'BIZ_OPS', 'CXO', 'STAKEHOLDER'),
+      firstName: Joi.string().min(2).max(50),
+    lastName: Joi.string().min(2).max(50),
+    role: Joi.string().valid('PM', 'DEV', 'DESIGN', 'LEGAL', 'SECURITY', 'BIZ_OPS', 'CXO', 'STAKEHOLDER'),
   settings: Joi.object({
     notifications: Joi.object({
       email: Joi.boolean(),
