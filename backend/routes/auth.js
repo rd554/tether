@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+const Team = require('../models/Team');
+const Link = require('../models/Link');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -33,18 +35,25 @@ router.post('/google', async (req, res) => {
 });
 
 // Test user authentication route
-router.post('/test', (req, res) => {
+router.post('/test', async (req, res) => {
   const { username, password } = req.body;
   const validUsers = ['test1', 'test2', 'test3'];
   const validPassword = 'test@123';
 
   if (validUsers.includes(username) && password === validPassword) {
+    // Clean up all teams and links for this test user
+    const email = `${username}@test.com`;
+    const user = await User.findOne({ email });
+    if (user) {
+      await Team.deleteMany({ owner: user._id });
+      await Link.deleteMany({ 'participants.userId': user._id });
+    }
     // Return a fake user object
     return res.json({
       success: true,
       user: {
         username,
-        email: `${username}@test.com`,
+        email,
         name: `Test User ${username.slice(-1)}`,
         role: 'PM', // Always PM
       }
