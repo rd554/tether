@@ -121,8 +121,8 @@ export default function HomePage() {
                 </button>
               )}
               <div style={{ width: '100%', maxWidth: 600 }}>
-                <div style={{ position: 'relative', boxSizing: 'content-box', maxHeight: '80vh', maxHeight: '80svh', width: '100%', aspectRatio: '1.8274111675126903', padding: '40px 0 40px 0' }}>
-                  <iframe src="https://app.supademo.com/embed/cmcsfqg1t0bv99st8soigyd1b?embed_v=2" loading="lazy" title="Tether Demo" allow="clipboard-write" frameBorder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowFullScreen style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}></iframe>
+                <div style={{ position: 'relative', boxSizing: 'content-box', maxHeight: '80vh', width: '100%', aspectRatio: '1.8274111675126903', padding: '40px 0 40px 0' }}>
+                  <iframe src="https://app.supademo.com/embed/cmcsfqg1t0bv99st8soigyd1b?embed_v=2" loading="lazy" title="Tether Demo" allow="clipboard-write" frameBorder="0" allowFullScreen style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}></iframe>
                 </div>
               </div>
             </motion.div>
