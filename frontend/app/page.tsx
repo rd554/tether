@@ -28,25 +28,7 @@ export default function HomePage() {
     }
   }, []);
 
-  const handleGoogleSuccess = async (credentialResponse: any) => {
-    try {
-      localStorage.setItem('tether_token', credentialResponse.credential);
-      const res = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL + '/api/auth/google',
-        { idToken: credentialResponse.credential }
-      );
-      setUser(res.data.user as User);
-      setError("");
-      if (res.data.user.onboarded) {
-        router.push('/dashboard');
-      } else {
-        router.push('/onboarding');
-      }
-      setTokenPresent(true);
-    } catch (err: any) {
-      setError(err?.response?.data?.error || "Google login failed");
-    }
-  };
+  // Remove handleGoogleSuccess and any Google login logic
 
   const handleSignOut = () => {
     try {
@@ -89,7 +71,7 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
-                  <span className="text-gray-700">Welcome, {user?.firstName || user?.username}</span>
+                  <span className="text-gray-700">Welcome, {user?.firstName || user?.email}</span>
                   <button
                     onClick={handleSignOut}
                     className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -138,9 +120,11 @@ export default function HomePage() {
                   Start Coordinating
                 </button>
               )}
-              <button className="btn-secondary text-lg px-8 py-3">
-                Watch Demo
-              </button>
+              <div style={{ width: '100%', maxWidth: 600 }}>
+                <div style={{ position: 'relative', boxSizing: 'content-box', maxHeight: '80vh', maxHeight: '80svh', width: '100%', aspectRatio: '1.8274111675126903', padding: '40px 0 40px 0' }}>
+                  <iframe src="https://app.supademo.com/embed/cmcsfqg1t0bv99st8soigyd1b?embed_v=2" loading="lazy" title="Tether Demo" allow="clipboard-write" frameBorder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowFullScreen style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}></iframe>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
